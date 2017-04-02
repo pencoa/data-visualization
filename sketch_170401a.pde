@@ -1,7 +1,8 @@
 import de.looksgood.ani.*;
 
 float z1, z2, z3, z4, z5;
-
+float xmag, ymag = 0;
+float newXmag, newYmag = 0; 
 
 AniSequence seq;
 
@@ -10,7 +11,10 @@ void setup() {
   smooth();
   noStroke();
   
-  
+  beginCamera();
+  camera();
+  rotateX(-PI/6);
+  endCamera();
   
   Ani.init(this);
   seq = new AniSequence(this);
@@ -119,6 +123,8 @@ void draw() {
 
 void drawText() {
   pushMatrix();
+  rotateMouse();
+
   textSize(25);
   fill(#C12525);
   text("usury", -60, -60, z1);
@@ -131,4 +137,22 @@ void drawText() {
   fill(#2B8DB9);
   text("gangsterdom", 33, 20, z5);
   popMatrix();
+}
+
+void rotateMouse() {
+  newXmag = mouseX/float(width) * TWO_PI;
+  newYmag = mouseY/float(height) * TWO_PI;
+  
+  float diff = xmag-newXmag;
+  if (abs(diff) >  0.01) { 
+    xmag -= diff/4.0; 
+  }
+  
+  diff = ymag-newYmag;
+  if (abs(diff) >  0.01) { 
+    ymag -= diff/4.0; 
+  }
+  
+  rotateX(-ymag); 
+  rotateY(-xmag);
 }
